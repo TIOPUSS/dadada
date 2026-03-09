@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acelera IT — Esteira Dev</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0d14;
+    --surface: #111520;
+    --surface2: #161c2d;
+    --border: #1e2840;
+    --accent: #00e5ff;
+    --accent2: #7c3aed;
+    --green: #22c55e;
+    --yellow: #f59e0b;
+    --red: #ef4444;
+    --pink: #ec4899;
+    --orange: #f97316;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --felipe: #3b82f6;
+    --lucas: #8b5cf6;
+    --daniel: #ec4899;
+    --cristhian: #f97316;
+    --kauan: #f59e0b;
+    --maico: #22c55e;
+    --caua: #22c55e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grid noise texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(0,229,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper { position: relative; z-index: 1; }
+
+  /* HEADER */
+  header {
+    padding: 28px 40px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 24px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-icon {
+    width: 38px; height: 38px;
+    background: var(--accent);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    color: #000;
+  }
+
+  .logo-text {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #fff;
+  }
+
+  .logo-text span { color: var(--accent); }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .live-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 1px;
+  }
+
+  .live-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.4); }
+  }
+
+  .date-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stat-item {
+    background: var(--surface);
+    padding: 16px 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .stat-num {
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1;
+    color: #fff;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: #94a3b8;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  .stat-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* MAIN CONTENT */
+  .main {
+    padding: 32px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  /* SECTION HEADER */
+  .section-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* DEV CARDS GRID */
+  .devs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .dev-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s;
+    cursor: pointer;
+  }
+
+  .dev-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+  }
+
+  .dev-card-header {
+    padding: 18px 20px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .dev-name-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .dev-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .dev-name {
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .dev-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .dev-stats {
+    display: flex;
+    gap: 6px;
+  }
+
+  .mini-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 700;
+  }
+
+  .pill-novo { background: rgba(124,58,237,0.2); color: #a78bfa; }
+  .pill-melh { background: rgba(0,229,255,0.15); color: var(--accent); }
+  .pill-agua { background: rgba(245,158,11,0.2); color: #fcd34d; }
+  .pill-conc { background: rgba(34,197,94,0.2); color: #4ade80; }
+
+  .dev-card-body {
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* PROJECT ROW */
+  .project-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: var(--surface2);
+    border: 1px solid transparent;
+    transition: border-color 0.15s;
+  }
+
+  .project-row:hover { border-color: var(--border); }
+
+  .project-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .project-type-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .project-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #f1f5f9;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .project-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .status-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+  }
+
+  .tag-novo { background: rgba(124,58,237,0.25); color: #c4b5fd; }
+  .tag-melh { background: rgba(0,229,255,0.15); color: #67e8f9; }
+  .tag-agua { background: rgba(245,158,11,0.2); color: #fcd34d; }
+  .tag-conc { background: rgba(34,197,94,0.2); color: #86efac; }
+
+  .progress-mini {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: #94a3b8;
+  }
+
+  .progress-bar-wrap {
+    width: 52px;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: var(--accent);
+    transition: width 1s ease;
+  }
+
+  .date-info {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: #94a3b8;
+  }
+
+  /* CONCLUÍDOS SECTION */
+  .concluidos-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+  }
+
+  .concluidos-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  .conc-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(34,197,94,0.1);
+    border: 1px solid rgba(34,197,94,0.3);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #86efac;
+  }
+
+  .conc-chip::before {
+    content: '✓';
+    font-size: 10px;
+    color: var(--green);
+  }
+
+  /* TABELA GERAL */
+  .table-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead tr {
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+
+  th {
+    padding: 14px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #94a3b8;
+    text-align: left;
+  }
+
+  td {
+    padding: 13px 16px;
+    font-size: 14px;
+    color: #cbd5e1;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .dev-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* FILTER BAR */
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+  }
+
+  .filter-btn {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+  }
+
+  .no-data { display: none; }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0 40px 20px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .legend-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+
+  /* NAV TABS */
+  .nav-tabs {
+    display: flex;
+    gap: 2px;
+    padding: 0 40px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-tab {
+    padding: 14px 22px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    border: none;
+    background: none;
+    border-bottom: 3px solid transparent;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .nav-tab:hover { color: var(--text); }
+  .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* PAGE SECTIONS */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* HUB STYLES */
+  .hub-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    padding: 32px 40px;
+  }
+
+  .hub-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hub-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 14px 14px 0 0;
+  }
+
+  .hub-card:hover {
+    transform: translateY(-3px);
+    border-color: #2a3a5c;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  }
+
+  .hub-card-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+
+  .hub-card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+
+  .hub-card-desc {
+    font-size: 13px;
+    color: #64748b;
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+
+  .hub-card-features {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .hub-feature {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    color: #94a3b8;
+  }
+
+  .hub-feature::before {
+    content: '→';
+    font-size: 10px;
+    opacity: 0.5;
+  }
+
+  .hub-card-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-weight: 600;
+    margin-top: 16px;
+  }
+
+  .status-planned { background: rgba(100,116,139,0.2); color: #94a3b8; }
+  .status-building { background: rgba(245,158,11,0.2); color: #fcd34d; }
+  .status-ready { background: rgba(34,197,94,0.2); color: #86efac; }
+
+  .hub-welcome {
+    padding: 32px 40px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .hub-welcome-text h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .hub-welcome-text p {
+    font-size: 14px;
+    color: #64748b;
+  }
+
+  .hub-welcome-badge {
+    background: rgba(0,229,255,0.1);
+    border: 1px solid rgba(0,229,255,0.3);
+    border-radius: 10px;
+    padding: 12px 20px;
+    text-align: right;
+  }
+
+  .hub-welcome-badge .label { font-size: 11px; color: #64748b; margin-bottom: 2px; font-family: 'DM Mono', monospace; }
+  .hub-welcome-badge .value { font-size: 18px; font-weight: 700; color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">A</div>
+    <div class="logo-text">Acelera<span>IT</span></div>
+  </div>
+  <div class="header-right">
+    <div class="live-badge"><div class="live-dot"></div>LIVE</div>
+    <div class="date-badge">MAR 2025 — Felipe Lacerda</div>
+  </div>
+</header>
+
+<!-- NAV TABS -->
+<div class="nav-tabs">
+  <button class="nav-tab" onclick="switchPage('hub', this)">⚡ Acelera Hub</button>
+  <button class="nav-tab active" onclick="switchPage('esteira', this)">📋 Esteira Dev</button>
+</div>
+
+<!-- PAGE: HUB -->
+<div class="page" id="page-hub">
+  <div class="hub-welcome">
+    <div class="hub-welcome-text">
+      <h2>Acelera Hub</h2>
+      <p>Central de comando da Acelera IT — tudo em um só lugar</p>
+    </div>
+    <div class="hub-welcome-badge">
+      <div class="label">MÓDULOS PLANEJADOS</div>
+      <div class="value">8 módulos</div>
+    </div>
+  </div>
+
+  <div class="hub-grid">
+
+    <div class="hub-card" style="border-top-color:#00e5ff" onclick="">
+      <div class="hub-card-icon">📱</div>
+      <div class="hub-card-title">Gestão de Apps</div>
+      <div class="hub-card-desc">Cadastro completo de todos os apps desenvolvidos, status, versão, cliente e ambiente.</div>
+      <div class="hub-card-features">
+        <div class="hub-feature">Cadastro de apps por cliente</div>
+        <div class="hub-feature">Status de ambiente (produção, homolog)</div>
+        <div class="hub-feature">Histórico de versões e deploys</div>
+        <div class="hub-feature">Documentação técnica anexada</div>
+      </div>
+      <div class="hub-card-status status-planned">⬤ Planejado</div>
+    </div>
+
+    <div class="hub-card" style="border-top-color:#f59e0b">
+      <div class="hub-card-icon">💰</div>
+      <div class="hub-card-title">Contratos & Cobranças</div>
+      <div class="hub-card-desc">Modelos de cobrança, contratos digitais, datas de vencimento e renovações automáticas.</div>
+      <div class="hub-card-features">
+        <div class="hub-feature">Modelos de planos (mensalidade, uso, licença)</div>
+        <div class="hub-feature">Contratos com assinatura digital</div>
+        <div class="hub-feature">Calendário de vencimentos</div>
+        <div class="hub-feature">Notificações automáticas de cobrança</div>
+      </div>
+      <div class="hub-card-status status-planned">⬤ Planejado</div>
+    </div>
+
+    <div class="hub-card" style="border-top-color:#ef4444">
+      <div class="hub-card-icon">🚨</div>
+      <div class="hub-card-title">Controle de Inadimplência</div>
+      <div class="hub-card-desc">Integração via API com os apps para suspensão e reativação automática por status de pagamento.</div>
+      <div class="hub-card-features">
+        <div class="hub-feature">Painel de clientes inadimplentes</div>
+        <div class="hub-feature">Desativar / reativar app com 1 clique</div>
+        <div class="hub-feature">Integração API por app</div>
+        <div class="hub-feature">Régua de cobrança automatizada</div>
+      </div>
+      <div class="hub-card-status status-planned">⬤ Planejado</div>
+    </div>
+
+    <div class="hub-card" style="border-top-color:#22c55e">
+      <div class="hub-card-icon">📊</div>
+      <div class="hub-card-title">Financeiro</div>
+      <div class="hub-card-desc">Visão completa de receita, custos por app, margem e projeções de MRR.</div>
+      <div class="hub-card-features">
+        <div class="hub-feature">MRR e ARR por app / cliente</div>
+        <div class="hub-feature">Custo de desenvolvimento por projeto</div>
+        <div class="hub-feature">Margem líquida por produto</div>
+        <div class="hub-feature">Projeção de receita</div>
+      </div>
+      <div class="hub-card-status status-planned">⬤ Planejado</div>
+    </div>
+
+    <div class="hub-card" style="border-top-color:#8b5cf6">
+      <div class="hub-card-icon">👨‍💻</div>
+      <div class="hub-card-title">Gestão de Devs</div>
+      <div class="hub-card-desc">Alocação de desenvolvedores, carga de trabalho, histórico e performance por projeto.</div>
+      <div class="hub-card-features">
+        <div class="hub-feature">Capacidade e alocação por dev</div>
+        <div class="hub-feature">Histórico de projetos entregues</div>
+        <div class="hub-feature">Indicadores de performance</div>
+        <div class="hub-feature">Controle de horas por projeto</div>
+      </div>
+      <div class="hub-card-status status-planned">⬤ Planejado</div>
+    </div>
+
+    <div class="hub-card" style="border-top-color:#ec4899">
+      <div class="hub-card-icon">🗂️</div>
+      <div class="hub-card-title">Esteira & Kanban</div>
+      <div class="hub-card-desc">Visualização e gestão completa da esteira de desenvolvimento com kanban interativo.</div>
+      <div class="hub-card-features">
+        <div class="hub-feature">Kanban por dev e por projeto</div>
+        <div class="hub-feature">Esteiras de novo, melhoria, aguardando</div>
+        <div class="hub-feature">Linha do tempo de entregas</div>
+        <div class="hub-feature">Integração com GitHub / Jira</div>
+      </div>
+      <div class="hub-card-status status-ready">⬤ Disponível (versão atual)</div>
+    </div>
+
+    <div class="hub-card" style="border-top-color:#06b6d4">
+      <div class="hub-card-icon">📁</div>
+      <div class="hub-card-title">Documentos & Arquivos</div>
+      <div class="hub-card-desc">Repositório centralizado de contratos, especificações, manuais e documentação técnica.</div>
+      <div class="hub-card-features">
+        <div class="hub-feature">Upload e organização por cliente/app</div>
+        <div class="hub-feature">Contratos, NDA, propostas</div>
+        <div class="hub-feature">Documentação técnica por sistema</div>
+        <div class="hub-feature">Controle de versão de documentos</div>
+      </div>
+      <div class="hub-card-status status-planned">⬤ Planejado</div>
+    </div>
+
+    <div class="hub-card" style="border-top-color:#f97316">
+      <div class="hub-card-icon">🏢</div>
+      <div class="hub-card-title">Clientes & CRM</div>
+      <div class="hub-card-desc">Cadastro completo de clientes, histórico de relacionamento, contatos e oportunidades.</div>
+      <div class="hub-card-features">
+        <div class="hub-feature">Perfil completo por empresa</div>
+        <div class="hub-feature">Histórico de interações</div>
+        <div class="hub-feature">Pipeline de novas vendas</div>
+        <div class="hub-feature">Apps ativos por cliente</div>
+      </div>
+      <div class="hub-card-status status-planned">⬤ Planejado</div>
+    </div>
+
+    <div class="hub-card" style="border-top-color:#a78bfa; opacity:0.6">
+      <div class="hub-card-icon">🔌</div>
+      <div class="hub-card-title">API Central</div>
+      <div class="hub-card-desc">Hub de integração com todos os apps desenvolvidos pela Acelera IT para controle remoto.</div>
+      <div class="hub-card-features">
+        <div class="hub-feature">Webhook por app cadastrado</div>
+        <div class="hub-feature">Ativar / suspender acesso</div>
+        <div class="hub-feature">Monitoramento de uptime</div>
+        <div class="hub-feature">Logs de ações remotas</div>
+      </div>
+      <div class="hub-card-status status-planned">⬤ Planejado</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PAGE: ESTEIRA -->
+<div class="page active" id="page-esteira">
+
+<!-- STATS BAR -->
+<div class="stats-bar" style="grid-template-columns: repeat(8,1fr)">
+  <div class="stat-item">
+    <div class="stat-dot" style="background:#a78bfa"></div>
+    <div>
+      <div class="stat-num" id="total-projetos">0</div>
+      <div class="stat-label">Total<br>Projetos</div>
+    </div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-dot" style="background:#a78bfa"></div>
+    <div>
+      <div class="stat-num" id="count-novo">0</div>
+      <div class="stat-label">Em<br>Dev</div>
+    </div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-dot" style="background:#fcd34d"></div>
+    <div>
+      <div class="stat-num" id="count-aguardando">0</div>
+      <div class="stat-label">Aguardando</div>
+    </div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-dot" style="background:#67e8f9"></div>
+    <div>
+      <div class="stat-num" id="count-melhorias">0</div>
+      <div class="stat-label">Melhorias</div>
+    </div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-dot" style="background:#86efac"></div>
+    <div>
+      <div class="stat-num" id="count-concluido">0</div>
+      <div class="stat-label">Concluídos</div>
+    </div>
+  </div>
+  <div class="stat-item" style="border-left: 2px solid #1e3a5f">
+    <div class="stat-dot" style="background:#00e5ff"></div>
+    <div>
+      <div class="stat-num" id="count-acelera" style="color:#67e8f9">0</div>
+      <div class="stat-label">Acelera IT<br>(Venda)</div>
+    </div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-dot" style="background:#f59e0b"></div>
+    <div>
+      <div class="stat-num" id="count-opus" style="color:#fcd34d">0</div>
+      <div class="stat-label">Interno<br>Opus</div>
+    </div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-dot" style="background:#a78bfa"></div>
+    <div>
+      <div class="stat-num" id="count-ambos" style="color:#c4b5fd">0</div>
+      <div class="stat-label">Interno +<br>Venda</div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- DEVS -->
+  <div>
+    <div class="section-title">Visão por Dev</div>
+    <div class="devs-grid" id="devs-grid"></div>
+  </div>
+
+  <!-- CONCLUÍDOS -->
+  <div class="concluidos-wrap">
+    <div class="section-title" style="margin-bottom:14px">Projetos Concluídos</div>
+    <div class="concluidos-grid" id="concluidos-grid"></div>
+  </div>
+
+  <!-- TABELA GERAL -->
+  <div>
+    <div class="section-title" style="margin-bottom: 14px">Tabela Geral de Projetos</div>
+    <div class="filter-bar" id="filter-bar">
+      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+        <span style="font-size:11px;color:#64748b;letter-spacing:1px;text-transform:uppercase;margin-right:4px">STATUS:</span>
+        <button class="filter-btn filter-status active" data-value="todos" onclick="setFilter('status','todos',this)">Todos</button>
+        <button class="filter-btn filter-status" data-value="NOVO" onclick="setFilter('status','NOVO',this)">Dev</button>
+        <button class="filter-btn filter-status" data-value="MELHORIAS" onclick="setFilter('status','MELHORIAS',this)">Melhorias</button>
+        <button class="filter-btn filter-status" data-value="AGUARDANDO" onclick="setFilter('status','AGUARDANDO',this)">Aguardando</button>
+        <button class="filter-btn filter-status" data-value="CONCLUÍDO" onclick="setFilter('status','CONCLUÍDO',this)">Concluídos</button>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:8px">
+        <span style="font-size:11px;color:#64748b;letter-spacing:1px;text-transform:uppercase;margin-right:4px">ORIGEM:</span>
+        <button class="filter-btn filter-origem active" data-value="todos" onclick="setFilter('origem','todos',this)">Todos</button>
+        <button class="filter-btn filter-origem" data-value="ACELERA" onclick="setFilter('origem','ACELERA',this)">🟦 Acelera IT</button>
+        <button class="filter-btn filter-origem" data-value="OPUS" onclick="setFilter('origem','OPUS',this)">🟨 Opus</button>
+        <button class="filter-btn filter-origem" data-value="AMBOS" onclick="setFilter('origem','AMBOS',this)">🟪 Interno + Venda</button>
+        <button class="filter-btn filter-origem" data-value="VITTAVERDE" onclick="setFilter('origem','VITTAVERDE',this)">🩷 VittaVerde</button>
+        <button class="filter-btn filter-origem" data-value="THECORP" onclick="setFilter('origem','THECORP',this)">🟩 TheCorp</button>
+        <span id="filter-count" style="margin-left:12px;font-family:'Space Mono',monospace;font-size:11px;color:#00e5ff"></span>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Dev</th>
+            <th>Projeto</th>
+            <th>Origem</th>
+            <th>Status</th>
+            <th>Fase / Info</th>
+            <th>Progresso</th>
+            <th>Data</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+</div>
+</div> <!-- close page-esteira -->
+</div> <!-- close wrapper -->
+
+<script>
+function switchPage(page, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  btn.classList.add('active');
+}
+
+const devColors = {
+  'Felipe Lacerda': '#3b82f6',
+  'Lucas Marquisio': '#8b5cf6',
+  'Daniel Lacerda': '#ec4899',
+  'Cristhian Sidoly': '#f97316',
+  'Kauan': '#f59e0b',
+  'Maico Fernandes': '#22c55e',
+  'Cauã (TheCorp)': '#10b981',
+  'CONCLUÍDOS': '#22c55e',
+};
+
+const statusColors = {
+  'NOVO': { bg: 'rgba(124,58,237,0.25)', color: '#c4b5fd' },
+  'MELHORIAS': { bg: 'rgba(0,229,255,0.15)', color: '#67e8f9' },
+  'AGUARDANDO': { bg: 'rgba(245,158,11,0.2)', color: '#fcd34d' },
+  'CONCLUÍDO': { bg: 'rgba(34,197,94,0.2)', color: '#86efac' },
+};
+
+const typeColors = {
+  'NOVO': '#a78bfa',
+  'MELHORIAS': '#00e5ff',
+  'AGUARDANDO': '#f59e0b',
+  'CONCLUÍDO': '#22c55e',
+};
+
+// origem: 'ACELERA' = venda externa | 'OPUS' = interno Opus | 'AMBOS' = interno + pode vender | 'THECORP' = TheCorp
+const allProjects = [
+  // FELIPE LACERDA
+  { dev: 'Felipe Lacerda', projeto: 'Vagas', status: 'MELHORIAS', info: '', progresso: null, data: '28/02', origem: 'AMBOS' },
+  { dev: 'Felipe Lacerda', projeto: 'Workspace', status: 'MELHORIAS', info: '', progresso: null, data: '02/03', origem: 'OPUS' },
+  { dev: 'Felipe Lacerda', projeto: 'VittaVerde', status: 'MELHORIAS', info: '', progresso: null, data: '24/02', origem: 'VITTAVERDE' },
+  { dev: 'Felipe Lacerda', projeto: 'Opus Você', status: 'AGUARDANDO', info: 'Sem data', progresso: null, data: '', origem: 'OPUS' },
+  { dev: 'Felipe Lacerda', projeto: 'Projeto Ivan (Uniq)', status: 'AGUARDANDO', info: 'Proposta aceita — Em fase de contrato', progresso: null, data: '', origem: 'ACELERA' },
+  { dev: 'Felipe Lacerda', projeto: 'Vertex', status: 'AGUARDANDO', info: 'Em fase de envio de proposta', progresso: null, data: '', origem: 'ACELERA' },
+  { dev: 'Felipe Lacerda', projeto: 'Automação Clara', status: 'AGUARDANDO', info: 'Sem data', progresso: null, data: '', origem: 'OPUS' },
+  { dev: 'Felipe Lacerda', projeto: 'Miro - Loja de Carro', status: 'AGUARDANDO', info: 'Em fase de envio de proposta', progresso: null, data: '', origem: 'ACELERA' },
+  { dev: 'Felipe Lacerda', projeto: 'Ademicon', status: 'AGUARDANDO', info: 'Fase de reunião inicial', progresso: null, data: '', origem: 'ACELERA' },
+  { dev: 'Felipe Lacerda', projeto: 'Acelera Hub', status: 'NOVO', info: 'Central de gestão da Acelera IT', progresso: 5, data: '', origem: 'ACELERA' },
+
+  // LUCAS MARQUISIO
+  { dev: 'Lucas Marquisio', projeto: 'Faturamento Telos', status: 'NOVO', info: '', progresso: 98, data: '', origem: 'OPUS' },
+  { dev: 'Lucas Marquisio', projeto: 'Dashboard Senior', status: 'NOVO', info: 'Aguardando WebServices', progresso: null, data: '', origem: 'OPUS' },
+  { dev: 'Lucas Marquisio', projeto: 'Intera', status: 'MELHORIAS', info: 'API Intera x iFood - Início 02/03', progresso: null, data: '', origem: 'OPUS' },
+  { dev: 'Lucas Marquisio', projeto: 'AllStrategy', status: 'AGUARDANDO', info: 'Dashboard Controladoria + Resultados e Cenários', progresso: null, data: '', origem: 'OPUS' },
+
+  // DANIEL LACERDA
+  { dev: 'Daniel Lacerda', projeto: 'Comercial', status: 'NOVO', info: '', progresso: null, data: '', origem: 'AMBOS' },
+  { dev: 'Daniel Lacerda', projeto: 'Opus Rental Capital', status: 'AGUARDANDO', info: '', progresso: null, data: '', origem: 'AMBOS' },
+
+  // CRISTHIAN SIDOLY
+  { dev: 'Cristhian Sidoly', projeto: 'G Farma', status: 'NOVO', info: 'Implantação 03/03', progresso: null, data: '', origem: 'ACELERA' },
+  { dev: 'Cristhian Sidoly', projeto: 'Agente Telos', status: 'NOVO', info: 'Implantação 06/03', progresso: null, data: '', origem: 'OPUS' },
+  { dev: 'Cristhian Sidoly', projeto: 'Robô', status: 'AGUARDANDO', info: '', progresso: 60, data: '', origem: 'AMBOS' },
+  { dev: 'Cristhian Sidoly', projeto: 'Robo Tráfego Pago', status: 'AGUARDANDO', info: '', progresso: 0, data: '', origem: 'ACELERA' },
+
+  // KAUAN
+  { dev: 'Kauan', projeto: 'Atlas', status: 'NOVO', info: '', progresso: 99, data: '28/02', origem: 'AMBOS' },
+  { dev: 'Kauan', projeto: 'Full Facilities', status: 'MELHORIAS', info: 'Mobile', progresso: 99, data: '25/02', origem: 'AMBOS' },
+  { dev: 'Kauan', projeto: 'DHO', status: 'AGUARDANDO', info: 'Aguardando 02/03', progresso: null, data: '', origem: 'OPUS' },
+  { dev: 'Kauan', projeto: 'Qualidade Completo', status: 'AGUARDANDO', info: 'Aguardando 02/03', progresso: null, data: '', origem: 'OPUS' },
+
+  // MAICO FERNANDES
+  { dev: 'Maico Fernandes', projeto: 'Inventário', status: 'NOVO', info: '???????', progresso: null, data: '', origem: 'OPUS' },
+
+  // CAUÃ
+  { dev: 'Cauã (TheCorp)', projeto: 'Gestão Porto', status: 'NOVO', info: '', progresso: null, data: '', origem: 'THECORP' },
+  { dev: 'Cauã (TheCorp)', projeto: 'Clube Motos', status: 'NOVO', info: '', progresso: null, data: '', origem: 'THECORP' },
+
+  // CONCLUÍDOS
+  { dev: 'CONCLUÍDOS', projeto: 'Ticketflow', status: 'CONCLUÍDO', info: '', progresso: 100, data: '', origem: 'AMBOS' },
+  { dev: 'CONCLUÍDOS', projeto: 'RNC', status: 'CONCLUÍDO', info: '', progresso: 100, data: '', origem: 'OPUS' },
+  { dev: 'CONCLUÍDOS', projeto: 'Vagas', status: 'CONCLUÍDO', info: '', progresso: 100, data: '', origem: 'AMBOS' },
+  { dev: 'CONCLUÍDOS', projeto: 'Facilities', status: 'CONCLUÍDO', info: '', progresso: 100, data: '', origem: 'AMBOS' },
+  { dev: 'CONCLUÍDOS', projeto: 'VittaVerde', status: 'CONCLUÍDO', info: '', progresso: 100, data: '', origem: 'VITTAVERDE' },
+  { dev: 'CONCLUÍDOS', projeto: 'Workspace', status: 'CONCLUÍDO', info: '', progresso: 100, data: '', origem: 'OPUS' },
+  { dev: 'CONCLUÍDOS', projeto: 'Compliance', status: 'CONCLUÍDO', info: '', progresso: 100, data: '', origem: 'OPUS' },
+];
+
+// STATS
+function calcStats() {
+  document.getElementById('total-projetos').textContent = allProjects.length;
+  document.getElementById('count-novo').textContent = allProjects.filter(p => p.status === 'NOVO').length;
+  document.getElementById('count-aguardando').textContent = allProjects.filter(p => p.status === 'AGUARDANDO').length;
+  document.getElementById('count-melhorias').textContent = allProjects.filter(p => p.status === 'MELHORIAS').length;
+  document.getElementById('count-concluido').textContent = allProjects.filter(p => p.status === 'CONCLUÍDO').length;
+  document.getElementById('count-acelera').textContent = allProjects.filter(p => p.origem === 'ACELERA').length;
+  document.getElementById('count-opus').textContent = allProjects.filter(p => p.origem === 'OPUS').length;
+  document.getElementById('count-ambos').textContent = allProjects.filter(p => p.origem === 'AMBOS').length;
+}
+
+// DEV CARDS
+function buildDevCards() {
+  const devs = ['Felipe Lacerda', 'Lucas Marquisio', 'Daniel Lacerda', 'Cristhian Sidoly', 'Kauan', 'Maico Fernandes', 'Cauã (TheCorp)'];
+  const grid = document.getElementById('devs-grid');
+
+  devs.forEach(dev => {
+    const projects = allProjects.filter(p => p.dev === dev);
+    const color = devColors[dev];
+    const initials = dev.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+
+    const novoCount = projects.filter(p => p.status === 'NOVO').length;
+    const melhCount = projects.filter(p => p.status === 'MELHORIAS').length;
+    const aguaCount = projects.filter(p => p.status === 'AGUARDANDO').length;
+
+    let pillsHTML = '';
+    if (novoCount) pillsHTML += `<span class="mini-pill pill-novo">DEV ${novoCount}</span>`;
+    if (melhCount) pillsHTML += `<span class="mini-pill pill-melh">MELH ${melhCount}</span>`;
+    if (aguaCount) pillsHTML += `<span class="mini-pill pill-agua">AGU ${aguaCount}</span>`;
+
+    let projectsHTML = projects.map(p => {
+      const sc = statusColors[p.status];
+      const tc = typeColors[p.status];
+
+      let rightContent = '';
+      if (p.progresso !== null) {
+        const pct = p.progresso;
+        rightContent = `
+          <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${pct}%; background:${pct > 80 ? '#22c55e' : pct > 40 ? '#f59e0b' : '#ef4444'}"></div></div>
+          <span class="progress-mini">${pct}%</span>`;
+      } else if (p.data) {
+        rightContent = `<span class="date-info">${p.data}</span>`;
+      } else if (p.info) {
+        rightContent = '';
+      }
+
+      const tagClass = { 'NOVO': 'tag-novo', 'MELHORIAS': 'tag-melh', 'AGUARDANDO': 'tag-agua', 'CONCLUÍDO': 'tag-conc' }[p.status];
+      const oc = origemConfig[p.origem] || { label: p.origem, dot: '#64748b' };
+
+      return `
+        <div class="project-row">
+          <div class="project-left">
+            <div class="project-type-dot" style="background:${tc}"></div>
+            <div>
+              <div class="project-name">${p.projeto}</div>
+              ${p.info ? `<div style="font-size:11px;color:#94a3b8;margin-top:2px">${p.info}</div>` : ''}
+            </div>
+          </div>
+          <div class="project-right">
+            ${rightContent}
+            <span style="display:inline-flex;align-items:center;gap:3px;font-size:9px;color:${oc.dot};font-family:'Space Mono',monospace;opacity:0.8">
+              <span style="width:5px;height:5px;border-radius:50%;background:${oc.dot};display:inline-block"></span>
+              ${oc.label.split(' ')[0]}
+            </span>
+            <span class="status-tag ${tagClass}">${p.status.substring(0,4)}</span>
+          </div>
+        </div>`;
+    }).join('');
+
+    const card = document.createElement('div');
+    card.className = 'dev-card';
+    card.innerHTML = `
+      <div class="dev-card-header">
+        <div class="dev-name-row">
+          <div class="dev-avatar" style="background:${color}">${initials}</div>
+          <div>
+            <div class="dev-name">${dev}</div>
+            <div class="dev-count">${projects.length} projetos</div>
+          </div>
+        </div>
+        <div class="dev-stats">${pillsHTML}</div>
+      </div>
+      <div class="dev-card-body">${projectsHTML}</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// CONCLUÍDOS
+function buildConcluidos() {
+  const conc = allProjects.filter(p => p.status === 'CONCLUÍDO');
+  const grid = document.getElementById('concluidos-grid');
+  conc.forEach(p => {
+    const chip = document.createElement('div');
+    chip.className = 'conc-chip';
+    chip.textContent = p.projeto;
+    grid.appendChild(chip);
+  });
+}
+
+// TABLE — multi-select filters, both groups work simultaneously
+const activeFilters = { status: new Set(['todos']), origem: new Set(['todos']) };
+
+const origemConfig = {
+  'ACELERA':    { label: 'Acelera IT',    bg: 'rgba(0,229,255,0.15)',    color: '#67e8f9', dot: '#00e5ff' },
+  'OPUS':       { label: 'Opus',          bg: 'rgba(245,158,11,0.15)',   color: '#fcd34d', dot: '#f59e0b' },
+  'AMBOS':      { label: 'Opus + Acelera',bg: 'rgba(167,139,250,0.2)',   color: '#c4b5fd', dot: '#a78bfa' },
+  'THECORP':    { label: 'TheCorp',       bg: 'rgba(16,185,129,0.15)',   color: '#6ee7b7', dot: '#10b981' },
+  'VITTAVERDE': { label: 'VittaVerde',    bg: 'rgba(236,72,153,0.15)',   color: '#f9a8d4', dot: '#ec4899' },
+};
+
+function setFilter(type, value, btn) {
+  const f = activeFilters[type];
+  if (value === 'todos') {
+    f.clear(); f.add('todos');
+  } else {
+    f.delete('todos');
+    if (f.has(value)) { f.delete(value); if (f.size === 0) f.add('todos'); }
+    else { f.add(value); }
+  }
+  const sel = type === 'origem' ? '.filter-origem' : '.filter-status';
+  document.querySelectorAll(sel).forEach(b => {
+    b.classList.toggle('active', f.has(b.dataset.value));
+  });
+  buildTable();
+}
+
+function buildTable() {
+  const tbody = document.getElementById('table-body');
+  tbody.innerHTML = '';
+  const sf = activeFilters.status;
+  const of = activeFilters.origem;
+  const data = allProjects.filter(p =>
+    (sf.has('todos') || sf.has(p.status)) &&
+    (of.has('todos') || of.has(p.origem))
+  );
+  const countEl = document.getElementById('filter-count');
+  if (countEl) countEl.textContent = `${data.length} projeto${data.length !== 1 ? 's' : ''}`;
+  if (data.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:32px;color:#64748b;font-size:14px">Nenhum projeto encontrado com esses filtros.</td></tr>`;
+    return;
+  }
+  data.forEach(p => {
+    const devColor = devColors[p.dev] || '#64748b';
+    const sc = statusColors[p.status];
+    const tc = typeColors[p.status];
+    const oc = origemConfig[p.origem] || { label: p.origem, bg: 'rgba(100,116,139,0.2)', color: '#94a3b8', dot: '#64748b' };
+    const progressHTML = p.progresso !== null
+      ? `<div style="display:flex;align-items:center;gap:8px">
+          <div class="progress-bar-wrap" style="width:60px"><div class="progress-bar-fill" style="width:${p.progresso}%;background:${p.progresso>80?'#22c55e':p.progresso>40?'#f59e0b':'#ef4444'}"></div></div>
+          <span style="font-family:'Space Mono',monospace;font-size:12px;color:#e2e8f0;font-weight:700">${p.progresso}%</span>
+         </div>`
+      : `<span style="color:#374151;font-size:13px">—</span>`;
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td><div class="dev-chip" style="background:${devColor}22;color:${devColor}">${p.dev.split(' ')[0]}</div></td>
+      <td style="font-weight:700;color:#f1f5f9">${p.projeto}</td>
+      <td><span class="status-badge" style="background:${oc.bg};color:${oc.color}"><span style="width:7px;height:7px;border-radius:50%;background:${oc.dot};display:inline-block;flex-shrink:0"></span>${oc.label}</span></td>
+      <td><span class="status-badge" style="background:${sc.bg};color:${sc.color}"><span style="width:6px;height:6px;border-radius:50%;background:${tc};display:inline-block"></span>${p.status}</span></td>
+      <td style="color:#94a3b8;font-size:13px;max-width:200px">${p.info||'—'}</td>
+      <td>${progressHTML}</td>
+      <td style="font-family:'Space Mono',monospace;font-size:12px;color:#94a3b8">${p.data||'—'}</td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
+
+// INIT
+calcStats();
+buildDevCards();
+buildConcluidos();
+buildTable();
+</script>
+</body>
+</html>
